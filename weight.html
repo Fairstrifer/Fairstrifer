@@ -1,0 +1,85 @@
+<html>
+<head>
+    <title>Peso da perdere</title>
+    <style>
+        .background{
+            background-image:url("fitness-image-768x479.jpg");
+        }
+        .box{
+            margin-left:20%;
+            margin-top: 5%;
+            margin-right: 20%;
+            color:crimson;
+            background-color: black; 
+        }
+        .pos{
+            text-align: center;
+        }
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+</head>
+    <body class= "background">
+            <div >
+                    <div class ="box color">
+                            <div class="container">
+                                    <div class="row">
+                                      <div class="col-sm Text">
+                                        <h4><i>Altezza</i></h4>
+                                        <input type="text" class="form-control" id="exampleInputName1" aria-describedby="nameHelp" placeholder="Inserisci Altezza">
+                                        <h4><i>Peso</i></h4>
+                                        <input type="text" class="form-control" id="exampleInputName2" aria-describedby="nameHelp" placeholder="Inserisci Peso">
+                                        <div class="form-group">
+                                                <label for="exampleSelect1"><h4><i>Sesso</i></h4></label>
+                                                <select class="form-control" id="exampleSelect1">
+                                                        <option value="0">Maschio</option>
+                                                        <option value="1">Femmina</option>
+                                                        </select>
+                                                </div>
+                                                        <div class= "pos2">
+                                                                <div class= "results">
+                                                            </div>
+                                                        </div>
+                                                <div class= "pos">
+                                                        <button type="button" class="btn btn-outline-danger" onclick = "calcola()">Risultato</button>                                
+                                                </div>
+                                            </div>
+                                        </div>
+                                     </div>
+                                </div>
+                            </div>
+                   <script>
+                    var calcola = function(){
+                       var altezza = $("#exampleInputName1").val() ;
+                       var peso = $("#exampleInputName2").val() ;
+                       var sesso = parseInt($("#exampleSelect1").val()) ;
+                    
+                    if (peso.length == 0 || altezza.length == 0){
+                        $(".results").html("Ci sono ancora campi vuoti")
+                        return true;
+                    }
+                    if (sesso == 0){
+                        pi = altezza - 100 - (altezza - 150)/4;
+                        
+                    }
+                    else{
+                        pi = altezza - 100 - (altezza - 150)/2;
+                    }
+                    var pesof = Math.abs (pi - peso)
+                    
+                    if (peso>pi)
+                    {
+                        $(".results").html("Sei grasso dimagrisci di " + pesof + "kg")
+                    }else{
+                        $(".results").html("Sei magro ingarssa di " + pesof + "kg") 
+                    }
+                }
+                   </script>     
+        </body>
+</html>
