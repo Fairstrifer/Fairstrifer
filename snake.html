@@ -1,0 +1,165 @@
+<html>
+    <head>
+        <style>
+            .page{
+                position: relative;
+            }
+            body{
+                background-color: black ;
+            }
+        </style>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+        <script src = "https://cdnjs.cloudflare.com/ajax/libs/fabric.js/2.3.3/fabric.min.js"></script>
+
+
+    </head>
+    <body>
+        <div class = "page">
+            <canvas id="mappasnake"></canvas> 
+        </div>
+
+        <script>
+        
+        $("#mappasnake").attr("width",$(window).width()-20) ;
+        $("#mappasnake").attr("height",$(window).height()-20) ;
+
+        var rows =  [] ;
+        for( var i = 0; i < 10 ; i++ )
+            rows.push([0,0,0,0,0,0,0,0,0,0])
+
+            
+
+        var enemy = [];
+        var snake = [];
+        var left = ($(window).width()-20)/2 - 10/2 ;
+        var up =  ($(window).height()-20)/2 - 10/2 ;
+        var rect = "" 
+        var canvas = new fabric.Canvas('mappasnake');
+
+        
+            var move = function(){
+                rect = snake.pop() ;
+                rect.set({ left: left, top: up });
+canvas.renderAll();
+                snake.unshift(rect) ;
+collision();
+            }
+
+            var createElementSnake= function()
+            {
+                rect = new fabric.Rect({
+  left: left ,
+  top: up ,
+  fill: 'red',
+  width: 10,
+  height: 10
+});
+snake.push(rect) ;
+// "add" rectangle onto canvas
+canvas.add(rect);
+            }
+createElementSnake();
+
+var updateMove = function(){
+
+    up += 10* dirUp ;
+    left += 10* dirLeft ;
+    if (left > window){
+        left = window +10;
+    }
+    if (up > window){
+        up = window - 10;
+    }
+    if( up > $(window).height()-20 )
+    {
+        up = 0 ;
+    }
+    if( left > $(window).width()-20 )
+    {
+        left = 0 ;
+    }
+    if( up < 0)
+    {
+        up =  $(window).height()-20  ;
+    }
+    if( left < 0 )
+    {
+        left =  $(window).width()-20 ;
+    }
+    move();
+}
+
+setInterval(updateMove,25) ;
+
+var dirUp = 0 ;
+var dirLeft = -1 
+$(window).keydown(function(event){
+    console.log(event.keyCode) ;
+    if (event.keyCode == 38 && dirUp == 0){
+        dirUp = -1 ;
+        dirLeft = 0 ;
+    }
+    if (event.keyCode == 37 && dirLeft==0){
+        dirLeft =  -1 ;
+        dirUp = 0  ;
+    }
+    if (event.keyCode == 40  && dirUp == 0){
+        dirUp = 1  ;
+        dirLeft = 0 ;
+    }
+    if (event.keyCode == 39 && dirLeft==0){
+        dirUp = 0  ;
+        dirLeft = 1 ;
+    }
+   
+    event.stopImmediatePropagation() ;
+})
+    var createElement = function(){
+        var l = Math.random() * 100000000 % $(window).width()-40 ;
+        var t = Math.random() * 10000000 % $(window).height()-40 ;
+        var rect = new fabric.Rect({
+            left: l,
+            top: t,
+            fill: 'blue',
+            width: 20,
+            height: 20
+
+});
+    enemy.push({el:rect, top: t, left: l})
+// "add" rectangle onto canvas
+canvas.add(rect);
+
+        setTimeout(createElement , Math.random() * 100000000  % 10000)
+    }
+
+
+        createElement()  
+    var collision = function(){
+        for (i = 0; i < enemy.length; i++){
+            var e = enemy[i];
+            //try{
+                var x1 = left ;
+                var y1 = up ;
+                var x0 = e.left ;
+                var y0 = e.top ;
+               if( (x0 <= x1 && x1 <= x0+20 && y0 <= y1 && y1 <= y0 + 20) ||
+                     (x0 <= x1 + 10  && x1 + 10 <= x0+20 && y0 <= y1 + 10 && y1 + 10 <= y0 + 20)
+               ){
+                canvas.remove(e.el)
+                enemy.splice(i,1) ;
+
+                createElementSnake()
+                break ;
+               }
+        
+            //}
+            //catch(error){
+             //   console.log(e) ;
+            //}
+        }
+    }
+        </script>
+    </body>
+</html>
